@@ -11,10 +11,23 @@ namespace Uploader;
  * @license    MIT License <http://www.opensource.org/licenses/mit>
  *
  * @see        https://github.com/blueimp/jQuery-File-Upload
+ * @see        https://github.com/Pasvaz/laravel-juploader
  */
 
 class UploadHandler
 {
+    protected $Headers = array();
+
+    protected $Response = '';
+
+    public function get_response() {
+        return $this->Response;
+    }
+    
+    public function get_headers() {
+        return $this->Headers;
+    }
+    
     protected $options;
     // PHP File Upload error message codes:
     // http://php.net/manual/en/features.file-upload.errors.php
@@ -277,7 +290,6 @@ class UploadHandler
         }
 
         list($img_width, $img_height) = @getimagesize($file_path);
-        //\Log::image('w:'.$img_width. ' h:'.$img_height);
         if (!$img_width || !$img_height) {
             return false;
         }
@@ -290,7 +302,6 @@ class UploadHandler
         {
             $original_aspect = $img_width / $img_height;
             $thumb_aspect = $thumb_width / $thumb_height;
-            //\Log::image('orig:'.($original_aspect). ' thumb:'.$thumb_aspect);
 
             if ( $original_aspect >= $thumb_aspect )
             {
@@ -304,16 +315,13 @@ class UploadHandler
                $new_width = $thumb_width;
                $new_height = ( int ) ($thumb_width / $original_aspect);
             }
-            //\Log::image('cw/:'.($new_width). ' ch/:'.$new_height);
         }
         else
         {
-            //\Log::image('w/:'.($thumb_width / $img_width). ' h/:'.$thumb_height / $img_height);
             $scale = min(
                 $thumb_width / $img_width,
                 $thumb_height / $img_height
             );
-            //\Log::image('scale:'.$scale);
             if ($scale >= 1) {
                 if ($file_path !== $new_file_path) {
                     return copy($file_path, $new_file_path);
@@ -323,8 +331,6 @@ class UploadHandler
             $new_width = $img_width * $scale;
             $new_height = $img_height * $scale;
         }
-
-        //\Log::image('nw:'.$new_width. ' nh:'.$new_height);
 
         $new_img = @imagecreatetruecolor($new_width, $new_height);
         switch (strtolower(substr(strrchr($file_name, '.'), 1))) {
@@ -368,20 +374,17 @@ class UploadHandler
             $new_width, $new_height,
             $img_width, $img_height
         )) return false;
-            //\Log::image('Image resized');
 
         if ($crop)
         {
             $center_x = ($new_width - $thumb_width) / 2; // Center the image horizontally
             $center_y = ($new_height - $thumb_height) / 2; // Center the image vertically
-            \Log::image('center_x:'.$center_x. ' center_y:'.$center_y);
             $crop_img = @imagecreatetruecolor($thumb_width, $thumb_height);
             if (! @imagecopy($crop_img, $new_img,
                 0, 0,
                 $center_x, $center_y,
                 $thumb_width, $thumb_height
             )) return false;            
-            //\Log::image('Image cropped');
 
             $success = $write_image($crop_img, $new_file_path, $image_quality);
             @imagedestroy($crop_img);
@@ -635,11 +638,13 @@ class UploadHandler
     }
 
     protected function body($str) {
-        echo $str;
+        //echo $str;
+        $this->Response .= $str;
     }
     
     protected function header($str) {
-        header($str);
+        //header($str);
+        $this->Headers[] = $str;
     }
 
     protected function generate_response($content, $print_response = true) {
@@ -648,6 +653,7 @@ class UploadHandler
             $redirect = isset($_REQUEST['redirect']) ?
                 stripslashes($_REQUEST['redirect']) : null;
             if ($redirect) {
+                \Log::handler_redirect(rawurlencode($json));
                 $this->header('Location: '.sprintf($redirect, rawurlencode($json)));
                 return;
             }
@@ -750,7 +756,10 @@ class UploadHandler
             return $this->download();
         }
         $file_name = $this->get_file_name_param();
-        if ($file_name) {
+
+        //use file or files according with param_name ('files')
+        //TODO: remove file, it sounds useless, files can handle both cases
+        if (false and $file_name) {
             $response = array(
                 substr($this->options['param_name'], 0, -1) => $this->get_file_object($file_name)
             );

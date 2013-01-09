@@ -11,10 +11,14 @@ Autoloader::namespaces(
  * 	IoC Management
  */
 $options = Config::get('juploader::settings');
-//You can also change the $options at runtime
-//$name = (Auth::user()) ? Auth::user()->name : 'Anonymous';
-//$options['upload_dir'] = path('public').'/pictures/'.$name.'/';
-//$options['upload_url'] = URL::base().'/pictures/'.$name.'/';
+
+/**
+*   You can also change the $options at runtime
+*   $name = (Auth::user()) ? Auth::user()->name : 'Anonymous';
+*   $options['upload_dir'] = path('public').'/pictures/'.$name.'/';
+*   $options['upload_url'] = URL::base().'/pictures/'.$name.'/';
+*/
+
 Laravel\IoC::register('Uploader', function() use ($options)
 {
 	return new Uploader\UploadHandler($options, false);
@@ -45,10 +49,19 @@ Asset::container('juploader-gallery')
     ->add('bootstrap-gallery-css',	'css/extra/bootstrap-image-gallery.min.css')
     ->add('bootstrap-gallery',		'js/extra/bootstrap-image-gallery.min.js');
 
+/**
+ * Use this asset only if you are going to 
+ * use the library canvas-to-blob
+ * mode details here: https://github.com/blueimp/jQuery-File-Upload/wiki
+ */
 Asset::container('juploader-optional')
     ->bundle('juploader')
     ->add('canvas-to-blob',			'js/extra/canvas-to-blob.min.js');
 
+/**
+ * Debug assets, don't use these assets 
+ * unless you don't need to debug the js
+ */
 Asset::container('juploader-debug')
     ->bundle('juploader')
     ->add('tmpl',					'js/extra/tmpl.js')
