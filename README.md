@@ -1,17 +1,48 @@
-# jQuery Uploader for Laravel
+# Laravel jUploader
 A jQuery-File-Upload bundle for the Laravel Framework
 
 ## Requirements
 * [Bootstraper Enhanced Bundle](https://github.com/Pasvaz/bootstrapper)
+
 OR
+
 * [Bootstraper Bundle](https://github.com/patricktalmadge/bootstrapper/)
+
+<a name='installation'></a>
+## Installation
+
+Type the following in your Terminal :
+
+```bash
+php artisan bundle:install juploader
+```
+
+Add the following to your `bundles.php` file :
+
+```php
+'juploader' => array('handles' => 'upload'),
+```
+
+Install Bootstrapper as well :
+
+```bash
+php artisan bundle:install bootstrapper
+```
+
+And finally publish the bundle assets :
+
+```bash
+php artisan bundle:publish
+```
+
+----
 
 # jQuery File Upload
 ## Demo
 [jQuery-File-Upload](http://blueimp.github.com/jQuery-File-Upload/)
 
 ## Setup
-* [How to setup the plugin on your website](https://github.com/blueimp/jQuery-File-Upload/wiki/Setup)
+[How to setup the plugin on your website](https://github.com/blueimp/jQuery-File-Upload/wiki/Setup)
 
 ## Features
 * **Multiple file upload:**  
