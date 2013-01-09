@@ -119,6 +119,10 @@ class UploadHandler
         }
     }
 
+    public function handle_request() {
+        $this->initialize();
+    }
+
     protected function initialize() {
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'OPTIONS':

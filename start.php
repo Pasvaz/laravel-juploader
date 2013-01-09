@@ -1,10 +1,29 @@
 <?php
 
-// Autoload Uploader
+/**
+ * 	Autoload Uploader namespace
+ */
 Autoloader::namespaces(
     array('Uploader' => Bundle::path('jupload') . 'src' .DS. 'Uploader')
 );
 
+/**
+ * 	IoC Management
+ */
+$options = Config::get('jupload::settings');
+//You can also change the $options at runtime
+$name = (Auth::user()) ? Auth::user()->name : 'Anonymous';
+$options['upload_dir'] = path('public').'/pictures/'.$name.'/';
+$options['upload_url'] = URL::base().'/pictures/'.$name.'/';
+Laravel\IoC::register('Uploader', function() use ($options)
+{
+	return new Uploader\UploadHandler($options, false);
+});
+
+
+/**
+ * 	Assets Management
+ */
 Asset::container('jupload')
     ->bundle('jupload')
 

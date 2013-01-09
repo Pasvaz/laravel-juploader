@@ -1,13 +1,16 @@
 <?php
 
-Route::get('(:bundle)', function()
+//Route::get('(:bundle)', array('before'=>'auth', function()
+Route::get('(:bundle)', array(function()
 {
 	//Bundle::start('jupload');
 	return View::make('jupload::index');
-});
+}));
 
+//Route::any('(:bundle)/upload/(:any?)', array('as' => 'upload', 'before'=>'auth', function($folder = null)
 Route::any('(:bundle)/upload/(:any?)', array('as' => 'upload', function($folder = null)
 {
+
 	if ( ! Request::ajax())
 		return;
 
@@ -15,7 +18,6 @@ Route::any('(:bundle)/upload/(:any?)', array('as' => 'upload', function($folder 
 	if ($folder !== null)
 		$folder .= '/';
 
-	$options = Config::get('jupload::settings');
-
-	new Uploader\UploadHandler($options);
+	$uploader = IoC::resolve('Uploader');
+	$uploader->handle_request();
 }));
