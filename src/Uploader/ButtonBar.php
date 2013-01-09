@@ -93,7 +93,7 @@ class ButtonBar
 			$button_bar.= $button->getHtml();
 		}
 			//<!-- The fileinput-button span is used to style the file input field as button -->
-			$div2a = static::div_wrapper($button_bar, array('class'=>"span7"));
+			$div2a = static::div_wrapper($button_bar, array('class'=>"span9"));
 
 			$div2b = '';
 			if ($this->has_progress)

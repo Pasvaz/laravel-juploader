@@ -128,13 +128,13 @@ class Button
     }
 
     static function fileButton()
-    { return new Button('Add files...', "icon-plus icon-white", 'fileinput-button', 'btn-success'); }
+    { return new Button(__('juploader::interface.add_files'), "icon-plus icon-white", 'fileinput-button', 'btn-success'); }
 	static function startButton()
-	{ return new Button('Start upload', "icon-upload icon-white", 'start', 'btn-primary'); }
+	{ return new Button(__('juploader::interface.startall'), "icon-upload icon-white", 'start', 'btn-primary'); }
 	static function cancelButton()
-	{ return new Button('Cancel upload', "icon-ban-circle icon-white", 'cancel', 'btn-warning'); }
+	{ return new Button(__('juploader::interface.cancelall'), "icon-ban-circle icon-white", 'cancel', 'btn-warning'); }
     static function deleteButton()
-    { return new Button('Delete Selected', "icon-trash icon-white", 'delete', 'btn-danger'); }
+    { return new Button(__('juploader::interface.deleteall'), "icon-trash icon-white", 'delete', 'btn-danger'); }
     static function selectallButton()
-    { return new Button('Select All', "icon-check", 'selectall', ''); }
+    { return new Button(__('juploader::interface.selectall'), "icon-check", 'selectall', ''); }
 }
