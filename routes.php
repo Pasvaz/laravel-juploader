@@ -8,8 +8,8 @@ Route::get('(:bundle)', function()
 
 Route::any('(:bundle)/upload/(:any?)', array('as' => 'upload', function($folder = null)
 {
-	//if ( ! Request::ajax())
-		//return;
+	if ( ! Request::ajax())
+		return;
 
 	//Bundle::start('jupload');
 	if ($folder !== null)
