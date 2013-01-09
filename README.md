@@ -2,12 +2,9 @@
 A jQuery-File-Upload bundle for the Laravel Framework
 
 ## Requirements
-* [Bootstraper Enhanced Bundle](https://github.com/Pasvaz/bootstrapper)
+* [Bootstraper Enhanced Bundle](https://github.com/Pasvaz/bootstrapper) OR [Bootstraper Bundle](https://github.com/patricktalmadge/bootstrapper/)
 
-OR
-
-* [Bootstraper Bundle](https://github.com/patricktalmadge/bootstrapper/)
-
+----
 <a name='installation'></a>
 ## Installation
 
@@ -23,7 +20,7 @@ Add the following to your `bundles.php` file :
 'juploader' => array('handles' => 'upload'),
 ```
 
-Install Bootstrapper as well :
+Install Bootstrapper if you didn't already :
 
 ```bash
 php artisan bundle:install bootstrapper
@@ -33,6 +30,58 @@ And finally publish the bundle assets :
 
 ```bash
 php artisan bundle:publish
+```
+
+Visit http://127.0.0.1/upload and play with the demos in order to get used with jUploader
+
+Alternatively you can download it directly from GitHub:
+http://github.com/Pasvaz/laravel-juploader
+
+
+----
+
+<a name='usage'></a>
+## Usage
+
+### Assets
+
+Load these Assets in order to make it working
+```php
+{{ Asset::container('bootstrapper')->styles() }}
+{{ Asset::container('juploader')->styles() }}
+{{ Asset::container('juploader-gallery')->styles() }}
+
+{{ Asset::container('bootstrapper')->scripts() }}
+{{ Asset::container('juploader')->scripts() }}
+{{ Asset::container('juploader-gallery')->scripts() }}
+/* The gallery is optional */
+```
+
+### Markup
+Setup a multipart/form-data Form:
+```php
+<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
+...
+</form>
+```
+Create the ButtonBar:
+```php
+<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
+
+{{Uploader\ButtonBar::create()}}
+
+</form>
+```
+
+And finally display the templates:
+```php
+<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
+
+{{Uploader\ButtonBar::create()}}
+
+</form>
+
+{{ Uploader\Templater::showAll() }}
 ```
 
 ----
