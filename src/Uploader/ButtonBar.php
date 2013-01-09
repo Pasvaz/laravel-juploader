@@ -62,12 +62,12 @@ class ButtonBar
         return $instance;
     }
 
-	public function with_button($type, $button = null)
+	public function with_button($type, $button = null, $icon = null, $style = null)
 	{
 		if (is_null($button) or empty($button))
 			$this->buttons[$type] = Button::create($type);
 		else if (is_string($button))
-			$this->buttons[$type] = Button::create($type, $button);
+			$this->buttons[$type] = Button::create($type, $button, $icon, $style);
 		else if ($button instanceof Button)
 			$this->buttons[$type] = $button;
 		return $this;

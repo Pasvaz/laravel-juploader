@@ -91,7 +91,7 @@ class Button
         return $button.PHP_EOL;
 	}
 
-    static function create($type, $label = null)
+    static function create($type, $label = null, $icon = null, $style = null)
     {
         $button = null;
         switch($type)
@@ -115,12 +115,16 @@ class Button
                 $button = new Button('', '');
         }
 
-        if (is_null($label))
-            return $button;
-        else if (is_string($label))
-            return $button->with_label($label);
-        else
-            return null;
+        if (!is_null($label) and is_string($label))
+            $button = $button->with_label($label);
+
+        if (!is_null($icon) and is_string($icon))
+            $button = $button->with_icon($icon);
+
+        if (!is_null($style) and is_string($style))
+            $button = $button->with_style($style);
+
+        return $button;
     }
 
     static function fileButton()

@@ -1,25 +1,69 @@
-@layout('layouts.main')
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-@section('addstyles')
-{{ Asset::container('jupload')->styles() }}
-{{ Asset::container('jupload-gallery')->styles() }}
-@endsection
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        footer {
+                height:100px;
+                color: #666;
+                background: #222;
+                padding: 17px 0 18px 0;
+        }
+    </style>
+    {{ Asset::container('bootstrapper')->styles() }}
+    {{ Asset::container('juploader')->styles() }}
+    {{ Asset::container('juploader-gallery')->styles() }}
+    {{ HTML::script('js/modernizr-2.6.1-respond-1.1.0.min.js') }}
+    
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('img/apple-touch-icon-144-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('img/apple-touch-icon-114-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('img/apple-touch-icon-72-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('img/apple-touch-icon-57-precomposed.png') }}">
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
 
-@section('dynamicscripts')
-{{ Asset::container('jupload')->scripts() }}
-{{ Asset::container('jupload-gallery')->scripts() }}
-{{Bootstrapper\Javascripter::write_javascript()}}
-@endsection
+    <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+    
+    <div class="wrapper">
+    <div class="container">
+        <div class="hero-unit">
+            <h1>jUploader for Laravel</h1>
+            <h2>Demos</h2>
+            <p>Follow the links to play with the demo</p>
+              <a href="/upload/demo/0" class="btn btn-primary">Simple Demo</a>
+              <a href="/upload/demo/1" class="btn btn-primary">Demo 1</a>
+              <a href="/upload/demo/2" class="btn btn-primary">Demo 2</a>
+              <a href="/upload/demo/3" class="btn btn-primary">Demo 3</a>
+        </div>
 
-@section('content')
-<form id="fileupload" action="<?php echo URL::to_route('upload'); ?>" method="POST" enctype="multipart/form-data">
-{{Uploader\ButtonBar::create()}}
-</form>
+        @yield('content')
 
-<!-- modal-gallery is the modal dialog used for the image gallery -->
-{{ Uploader\Templater::showGallery() }}
-<!-- The template to display files available for upload -->
-{{ Uploader\Templater::showUpload() }}
-<!-- The template to display files available for download -->
-{{ Uploader\Templater::showDownload() }}
-@endsection
+    </div> <!-- /wrapper -->
+    </div> <!-- /wrapper -->
+    <div class="push"><!-- / / --></div> <!-- /push -->
+    <footer>
+        <p>&copy; pasqualevazzana@gmail.com</p>
+    </footer> <!-- /footer -->
+        
+    <!-- begin javascript -->
+    {{ Asset::container('bootstrapper')->scripts() }}
+    {{ Asset::container('juploader')->scripts() }}
+    {{ Asset::container('juploader-gallery')->scripts() }}
+</body>
+</html>
