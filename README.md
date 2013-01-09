@@ -64,16 +64,17 @@ Setup a multipart/form-data Form:
 ...
 </form>
 ```
-Create the ButtonBar:
+Create the ButtonBar inside the Form:
 ```php
-<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
-
 {{Uploader\ButtonBar::create()}}
-
-</form>
 ```
 
-And finally display the templates:
+And finally add the templates:
+```php
+{{ Uploader\Templater::showAll() }}
+```
+
+There you go, you are done! The code below is enough to reproduce this [Demo](http://blueimp.github.com/jQuery-File-Upload/)
 ```php
 <form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
 
@@ -83,6 +84,32 @@ And finally display the templates:
 
 {{ Uploader\Templater::showAll() }}
 ```
+
+### Customization
+You can customize every single element of the Uploader, here some example:
+
+This create an Uploader without two buttons: BUTTON_CANCEL and BUTTON_SELECTALL
+```php
+<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
+{{Uploader\ButtonBar::create()->delete_button(Uploader\Button::BUTTON_CANCEL)->delete_button(Uploader\Button::BUTTON_SELECTALL)}}
+</form>
+```
+
+This create an Uploader with just two buttons: BUTTON_FILE and BUTTON_START.
+Using <code>create(false, false, false)</code> the button bar will start with no buttons and no global loader bar.
+Once the ButtonBar is created, it'll add the two buttons above using the function <code>with_button</code>
+```php
+<form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
+<?
+$buttonFile = \Uploader\Button::fileButton()->with_label('Select File');
+$buttonStart = new \Uploader\Button('Upload Now', "icon-upload icon-white", Uploader\Button::BUTTON_START, 'btn-success');
+echo Uploader\ButtonBar::create(false, false, false)
+    ->with_button(Uploader\Button::BUTTON_FILE, $buttonFile)
+    ->with_button(Uploader\Button::BUTTON_START, $buttonStart);
+?>
+</form>
+```
+
 
 ----
 
