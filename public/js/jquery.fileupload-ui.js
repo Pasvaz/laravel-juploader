@@ -641,10 +641,6 @@
             this._on(fileUploadButtonBar.find('.selectall'), {
                 click: function (e) {
                     var toggleactive=$(e.currentTarget).hasClass('active');
-                    if (toggleactive)
-                        $(e.currentTarget).removeClass('active');
-                    else
-                        $(e.currentTarget).addClass('active');
                     filesList.find('.delete input').prop(
                         'checked',
                         !toggleactive
