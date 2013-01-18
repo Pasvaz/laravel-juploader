@@ -50,6 +50,7 @@
               <a href="/upload/demo/1" class="btn btn-primary">Demo 1</a>
               <a href="/upload/demo/2" class="btn btn-primary">Demo 2</a>
               <a href="/upload/demo/3" class="btn btn-primary">Demo 3</a>
+              <a href="/upload/demo/4" class="btn btn-primary">Database Demo</a>
         </div>
 
         @yield('content')
@@ -65,5 +66,6 @@
     {{ Asset::container('bootstrapper')->scripts() }}
     {{ Asset::container('juploader')->scripts() }}
     {{ Asset::container('juploader-gallery')->scripts() }}
+    {{ Uploader\Javascripter::activate_uploader() }}
 </body>
 </html>
