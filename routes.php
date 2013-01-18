@@ -9,15 +9,22 @@ Route::get('(:bundle)', array(function()
 Route::get('(:bundle)/demo/(:num?)', array(function($page='')
 {
 	//Bundle::start('juploader');
-	return View::make('juploader::index')->nest('content', 'juploader::demo'.$page);;
+	if ($page == 4)
+		return View::make('juploader::database')->nest('content', 'juploader::demo'.$page);
+	else
+		return View::make('juploader::index')->nest('content', 'juploader::demo'.$page);
 }));
 
 Route::any('(:bundle)/upload', array('as' => 'upload', function()
 {
+	if ( ! Request::ajax())
+		return;
+
 	//Bundle::start('juploader');
 
 	$uploader = IoC::resolve('Uploader');
-	$uploader->handle_request();
-
-	return Response::make($uploader->get_response(), 200, $uploader->get_headers());
+	$uploader->Start();
+	return $uploader->get_response();
 }));
+
+Route::controller('juploader::dbupload');
