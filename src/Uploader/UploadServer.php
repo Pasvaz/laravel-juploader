@@ -28,7 +28,7 @@ class UploadServer implements iUploaderHandler
     public function Start()
     {
     	$this->Uploader = new $this->UploaderClass($this->UploaderOptions, $this->UploaderArguments);
-        //$this->Uploader->initialize();
+        return $this;
     }
     
     public function get_response()
