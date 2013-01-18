@@ -64,12 +64,10 @@ class ButtonBar
 
 	public function with_button($type, $button = null, $icon = null, $style = null)
 	{
-		if (is_null($button) or empty($button))
-			$this->buttons[$type] = Button::create($type);
-		else if (is_string($button))
-			$this->buttons[$type] = Button::create($type, $button, $icon, $style);
-		else if ($button instanceof Button)
+		if (!is_null($button) and $button instanceof Button)
 			$this->buttons[$type] = $button;
+		else
+			$this->buttons[$type] = Button::create($type, $button, $icon, $style);
 		return $this;
 	}
 

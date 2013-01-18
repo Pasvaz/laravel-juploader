@@ -1,6 +1,16 @@
 <?php
 namespace Uploader;
 
+/**
+ * Laravel jUploader bundle
+ *
+ * @package    Uploader
+ * @author     Pasquale Vazzana - <pasqualevazzana@gmail.com>
+ * @license    MIT License <http://www.opensource.org/licenses/mit>
+ *
+ * @see        https://github.com/Pasvaz/laravel-juploader
+ */
+
 class Button
 {
     /**
@@ -18,23 +28,25 @@ class Button
 	private $icon;
 	private $action;
     private $class;
+    private $attributes;
 	private $fileInputName;
 
     /**
      * Costructor
      */
-    function __construct($label, $icon, $btn_action='', $btn_style='', $fileInputName='files')
+    function __construct($label, $icon, $btn_action='', $btn_style='', $attributes = array(), $fileInputName = 'files')
     {
-    	$this->label = $label;
+    	$this->label = (string)$label;
     	$this->icon = $icon;
     	$this->action = $btn_action;
-    	$this->class = "btn $btn_style $btn_action";
+        $this->class = "btn $btn_style $btn_action";
+        $this->attributes = $attributes;
         $this->fileInputName = $fileInputName;
     }
 
     public function with_label($label)
     {
-        $this->label = $label;
+        $this->label = (string)$label;
         return $this;
     }
 
@@ -70,7 +82,7 @@ class Button
     	else if ($this->action == static::BUTTON_FILE or $this->action == 'file')
     	{
             $input = '<input type="file" name="'.$this->fileInputName.'[]" multiple>';
-            $button ='<span class="'.$this->class.'">';
+            $button ='<span class="'.$this->class.'"'.\HTML::attributes($this->attributes).'>';
             $button .=$icon.$lbl_span.$input;
 			$button .='</span>';
 
@@ -83,7 +95,7 @@ class Button
 	    		$type = 'reset';
     		else //if ($this->action == static::BUTTON_DELETE)
 	    		$type = 'button';
-            $button ='<button type="'.$type.'" class="'.$this->class.'">';
+            $button ='<button type="'.$type.'" class="'.$this->class.'"'.\HTML::attributes($this->attributes).'>';
             $button .=$icon.$lbl_span;
             $button .='</button>';
 		}
@@ -136,5 +148,5 @@ class Button
     static function deleteButton()
     { return new Button(__('juploader::interface.deleteall'), "icon-trash icon-white", 'delete', 'btn-danger'); }
     static function selectallButton()
-    { return new Button(__('juploader::interface.selectall'), "icon-check", 'selectall', ''); }
+    { return new Button(__('juploader::interface.selectall'), "icon-check", 'selectall', '', array("data-toggle"=>"button")); }
 }
