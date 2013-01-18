@@ -26,7 +26,7 @@ class juploade_create_uploads_table {
 			$table->create();
 			$table->increments('id');
 			$table->integer('album_id')->unsigned();
-			$table->string('file_name', 256);
+			$table->string('file_name', 256)->index();
 			$table->timestamps();
 			$table->foreign('album_id')->references('id')->on('albums')->on_delete('cascade')->on_update('cascade');
 		});
