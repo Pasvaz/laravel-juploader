@@ -7,21 +7,37 @@ Autoloader::namespaces(
     array('Uploader' => Bundle::path('juploader') . 'src' .DS. 'Uploader')
 );
 
-/**
- * 	IoC Management
- */
-$options = Config::get('juploader::settings');
+// Load Interface iUploadHandler
+require dirname(__FILE__) .DS. 'src' .DS. 'Uploader' .DS. 'iUploadHandler.php';
+
+Autoloader::directories(array(
+    Bundle::path('juploader').'models',
+    Bundle::path('juploader').'libraries',
+));
 
 /**
-*   You can also change the $options at runtime
-*   $name = (Auth::user()) ? Auth::user()->name : 'Anonymous';
-*   $options['upload_dir'] = path('public').'/pictures/'.$name.'/';
-*   $options['upload_url'] = URL::base().'/pictures/'.$name.'/';
+* 	IoC Management
+*
+*   You can also change the $options here
+*       $name = (Auth::user()) ? Auth::user()->name : 'Anonymous';
+*       $options['upload_dir'] = path('public').'/pictures/'.$name.'/';
+*       $options['upload_url'] = URL::base().'/pictures/'.$name.'/';
+*
+*   However it's better to change the options per controller, like this:
+*       $uploader = IoC::resolve('Uploader');
+*       $uploader
+*           ->with_option('override_name' , 'MyFixedName')
+*           ->with_option('script_url' , URL::to_route('dbupload'))
+*       ->Start();
 */
-
-Laravel\IoC::register('Uploader', function() use ($options)
+Laravel\IoC::register('Uploader', function()
 {
-	return new Uploader\UploadHandler($options, false);
+    $options = Config::get('juploader::settings');
+    $uploader = isset($options['UploaderClass']) ? $options['UploaderClass'] : 'Uploader\FileUploadHandler';
+    $arguments = isset($options['UploaderArguments']) ? $options['UploaderArguments'] : null;
+    $server_options = $options['Server'];
+
+    return new Uploader\UploadServer($uploader, $arguments, $server_options);
 });
 
 
@@ -41,7 +57,9 @@ Asset::container('juploader')
     ->add('fileupload',				'js/jquery.fileupload.js')
     ->add('fileupload-fp',      	'js/jquery.fileupload-fp.js')
     ->add('fileupload-ui',			'js/jquery.fileupload-ui.js')
-    ->add('main',					'js/main.js')
+    // main.js was REMOVED, it's no longer necessary
+    // now the main is written in realtime by Uploader\Javascripter
+    //->add('main',					'js/main.js')
     ->add('locale',					'js/locale.js');
 
 Asset::container('juploader-gallery')
