@@ -25,6 +25,7 @@ Install Bootstrapper if you didn't already :
 ```bash
 php artisan bundle:install bootstrapper
 ```
+I use my own Bootstrapper, you can take it from [here](https://github.com/Pasvaz/bootstrapper)
 
 And finally publish the bundle assets :
 
@@ -46,6 +47,7 @@ http://github.com/Pasvaz/laravel-juploader
 ### Assets
 
 Load these Assets in order to make it working
+
 ```php
 {{ Asset::container('bootstrapper')->styles() }}
 {{ Asset::container('juploader')->styles() }}
@@ -57,24 +59,61 @@ Load these Assets in order to make it working
 /* The gallery is optional */
 ```
 
+
+### Javascripter
+
+The Javascripter is very important, I introduced it recentely in order to let the developer setup the jQuery-file-uploader at runtime, before I used the standard main.js, but if you wanted to setup several uploaders with different setting you had to produce one main.js for each uploader, or change the javascript in the page. Using the Javascripter class, you don't have to worry about it.
+
+```php
+    {{ Uploader\Javascripter::activate_uploader() }}
+```
+Just put this line somewhere in your page and it will produce the javascript that makes the jQuery-uploader work.
+You can also change the options to fit your needs using the file ```/config/client.php``` but if you use multiple uploaders in your website you might want to set them up with differents options, so you can do something like this:
+
+```php
+<? 
+// change the url of the uploader and the Form Id
+{{ Uploader\Javascripter::with_option('url','/upload/dbupload')
+                          ->with_option('formId','dbfileupload')
+                          ->activate_uploader() }}
+
+// change the url of the uploader and the Form Id
+{{ Uploader\Javascripter::with_option('url','/upload/dbupload')
+                          ->with_option('formId','dbfileupload')
+                          ->activate_uploader() }}
+
+// change the url of the uploader, the dilesContainer and makes the files to be uploaded with a single click
+echo Uploader\Javascripter::with_option('url','/album/upload/')
+                              ->with_option('filesContainer','filesContainer')
+                              ->with_option('autoUpload', true)
+                              ->activate_uploader();
+?>
+```
+The ```/config/client.php``` contains a short description for each option, but I strongly suggest you to read the original [docs](https://github.com/blueimp/jQuery-File-Upload/wiki/Setup) to understand what every option does.
+
+
 ### Markup
 Setup a multipart/form-data Form:
-```php
+
+```html
 <form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
 ...
 </form>
 ```
 Create the ButtonBar inside the Form:
+
 ```php
 {{Uploader\ButtonBar::create()}}
 ```
 
 And finally add the templates:
+
 ```php
 {{ Uploader\Templater::showAll() }}
 ```
 
 There you go, you are done! The code below is enough to reproduce this [Demo](http://blueimp.github.com/jQuery-File-Upload/)
+
 ```php
 <form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
 
@@ -85,10 +124,12 @@ There you go, you are done! The code below is enough to reproduce this [Demo](ht
 {{ Uploader\Templater::showAll() }}
 ```
 
+
 ### Customization
 You can customize every single element of the Uploader, here some example:
 
 This create an Uploader without two buttons: BUTTON_CANCEL and BUTTON_SELECTALL
+
 ```php
 <form id="fileupload" action="{{ URL::to_route('upload') }}" method="POST" enctype="multipart/form-data">
 {{Uploader\ButtonBar::create()->delete_button(Uploader\Button::BUTTON_CANCEL)->delete_button(Uploader\Button::BUTTON_SELECTALL)}}
@@ -109,6 +150,8 @@ echo Uploader\ButtonBar::create(false, false, false)
 ?>
 </form>
 ```
+
+## Database
 
 
 ----
