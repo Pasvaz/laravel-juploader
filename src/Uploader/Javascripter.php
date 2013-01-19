@@ -20,6 +20,46 @@ class Javascripter
     static private $Options = array();
 
     /**
+     *     DO NOT EDIT THIS ARRAY: $DefaultOptions
+     */
+    static private $DefaultOptions = array(
+        'formId' => 'fileupload',
+        'url' => '/upload/upload/',
+        'fileInput' => 'undefined',
+        'replaceFileInput' => true,
+        'paramName' => 'undefined',
+        'singleFileUploads' => true,
+        'limitMultiFileUploads' => 'undefined',
+        'sequentialUploads' => false,
+        'limitConcurrentUploads' => 'undefined',
+        'forceIframeTransport' => false,
+        'redirect' => 'undefined',
+        'redirectParamName' => 'undefined',
+        'postMessage' => 'undefined',
+        'multipart' => true,
+        'maxChunkSize' => 'undefined',
+        'uploadedBytes' => 'undefined',
+        'recalculateProgress' => true,
+        'progressInterval' => 100,
+        'bitrateInterval' => 500,
+        'autoUpload' => false,
+        'maxNumberOfFiles' => 'undefined',
+        'maxFileSize' => 'undefined',
+        'minFileSize' => 'undefined',
+        'acceptFileTypes' =>  '/.+$/i',
+        'previewSourceFileTypes' => '/^image\/(gif|jpeg|png)$/',
+        'previewSourceMaxFileSize' => 5000000, // 5MB
+        'previewMaxWidth' => 80,
+        'previewMaxHeight' => 80,
+        'previewAsCanvas' => true,
+        'uploadTemplateId' => 'template-upload',
+        'downloadTemplateId' => 'template-download',
+        'filesContainer' => 'undefined',
+        'prependFiles' => false,
+        'dataType' => 'json',
+    );
+
+    /**
      * create the necessary javascript 
      * @return string 	The Javascript code
      */
@@ -34,8 +74,7 @@ class Javascripter
         unset($clientOptions['formId']);
         unset($clientOptions['filesContainer']);
 
-        $defaultOptions = \Config::get('juploader::defaultClient');
-        $options = array_diff_assoc($clientOptions, $defaultOptions);
+        $options = array_diff_assoc($clientOptions, static::$DefaultOptions);
 
         echo '<script type="text/javascript">';
         echo '$(function () { $(\'#'.$formId.'\').fileupload({';
