@@ -1,6 +1,6 @@
 <?php
 
-class juploade_create_uploads_table {
+class juploader_create_uploads_table {
 
 	/**
 	 * Just an example to show how to handle 
